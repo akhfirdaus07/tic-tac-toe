@@ -1,13 +1,16 @@
-// let modalBtns = [...document.querySelectorAll(".button")];
-// modalBtns.forEach(function (btn) {
-//   btn.onclick = function () {
-//     let modal = btn.getAttribute("data-modal");
-//     document.getElementById(modal).style.display = "block";
-//   };
-// });
+let gameBoard=[];
 
-// window.onclick = function (event) {
-//   if (event.target.className === "modal") {
-//     event.target.style.display = "none";
-//   }
-// };
+const addBtn = document.querySelector('#addBtn');
+addBtn.addEventListener('click', addUsername);
+
+const render=(()=>{
+    const username=()=>document.querySelector("#displayUsername").textContent=form.username.value;
+    ;
+    return {username};
+})();
+
+function addUsername(event) {
+    event.preventDefault();
+    render.username();
+    document.getElementById("modalOne").style.display = 'none';
+}

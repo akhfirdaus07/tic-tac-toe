@@ -2,7 +2,7 @@ body{
     font-family: 'Courier New', Courier, monospace;
     margin:0;
     height: 100vh;
-    padding: 0 20rem;
+    padding: 0 20%;
 
     display:grid;
     grid-template-columns: 1fr;
@@ -21,7 +21,6 @@ body{
     display:grid;
 }
 
-
 .header h1{
     justify-self: center;
     border: solid 1px black;
@@ -31,6 +30,11 @@ body{
 }
 
 .header #displayUsername, .header h2{
+    margin:0;
+}
+
+.header #displayUsername{
+    color: red;
     margin:0;
 }
 
@@ -93,14 +97,14 @@ footer{
 
     display: flex;
     flex-direction: column;
-    justify-content: center;
+
     align-items: center;
-    
+    text-align: center;
+    gap:20px;
 }
 input {
-    width: 90%;
+    width: 80%;
     padding: 10px;
-    margin-bottom: 20px;
     border: 1px solid #1c87c9;
     border-radius: 10px;
     outline: none;
