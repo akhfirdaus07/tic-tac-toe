@@ -1,0 +1,54 @@
+body{
+    font-family: 'Courier New', Courier, monospace;
+    margin:0;
+    height: 100vh;
+    padding: 0 20rem;
+    display:grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: min-content 1fr min-content;
+
+    align-items: center;
+}
+
+
+.header{
+    display:grid;
+}
+
+
+.header h1{
+    justify-self: center;
+    border: solid 1px black;
+    padding: 1rem;
+    background-color:antiquewhite;
+}
+
+.header #username, .header h2{
+    margin:0;
+}
+
+.game-board{
+    align-self: stretch;
+    background-color:aquamarine;
+    
+    margin: 1rem 0;
+    padding: 3rem 10rem;
+    display: grid;
+    grid-template: 1fr 1fr 1fr / 1fr 1fr 1fr;
+
+}
+
+.item{
+    border: solid 3px grey;
+    font-size: 5rem;
+    color: red;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-wrap: wrap;
+}
+
+footer{
+    justify-self: center;
+    padding-bottom: 1rem;
+}
