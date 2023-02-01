@@ -1,5 +1,4 @@
-let gameBoard=[];
-
+// Render and style layout
 const addBtn = document.querySelector('#addBtn');
 addBtn.addEventListener('click', addUsername);
 
@@ -19,9 +18,32 @@ const items=document.querySelectorAll(".item")
 
 function addValueToBoard(){
     this.textContent="X";
-    this.removeEventListener("click",addValueToBoard)
+    this.removeEventListener("click",addValueToBoard);
+    checkPlayerWin();
+
 }
 
 for(let item of items){
     item.addEventListener("click", addValueToBoard)
+}
+
+
+// Tic-Tac-Toe Logic
+const winningConditions = [
+    [0, 1, 2], //Horizontal
+    [3, 4, 5], //Horizontal
+    [6, 7, 8], //Horizontal
+    [0, 3, 6], //Vertical
+    [1, 4, 7], //Vertical
+    [2, 5, 8], //Vertical
+    [0, 4, 8], //Cross
+    [2, 4, 6], //Cross
+];
+
+function checkPlayerWin() {
+    return winningConditions.some((combination) => {
+      return combination.every((i) => {
+        return items[i].innerText === "X";
+      });
+    });
 }
