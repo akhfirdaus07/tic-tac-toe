@@ -14,7 +14,10 @@ function addUsername(event) {
     document.getElementById("modalOne").style.display = 'none';
 }
 
-const items=document.querySelectorAll(".item")
+const items=document.querySelectorAll(".item");
+for(let item of items){
+    item.addEventListener("click", addValueToBoard)
+}
 
 function addValueToBoard(){
     this.textContent="X";
@@ -26,25 +29,23 @@ function addValueToBoard(){
     }
 }
 
-window.addEventListener("click", function (event) {
-    if (event.target.className === "result") {
-        document.getElementById("modalTwo").style.display = "none";
-        resetScreen();
-    }
-});
-
 function resetScreen(){
     for(let item of items){
         item.textContent="";
     }
     document.getElementById("displayUsername").textContent="";
     document.getElementById("modalOne").style.display = 'block';
+    for(let item of items){
+        item.addEventListener("click", addValueToBoard)
+    }
 }
 
-for(let item of items){
-    item.addEventListener("click", addValueToBoard)
-}
-
+window.addEventListener("click", function (event) {
+    if (event.target.className === "result") {
+        document.getElementById("modalTwo").style.display = "none";
+        resetScreen();
+    }
+});
 
 // Tic-Tac-Toe Logic
 const winningConditions = [
