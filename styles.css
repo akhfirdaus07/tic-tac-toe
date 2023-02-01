@@ -17,7 +17,7 @@ body{
     border-radius: 10px 10px 0 0;
     background: #eee;
     padding-left: 1rem;
-    padding-bottom: 1rem;
+    padding-bottom: 0.5rem;
     display:grid;
 }
 
@@ -26,7 +26,7 @@ body{
     border: solid 1px black;
     padding: 1rem;
     background-color:antiquewhite;
-    margin-bottom: 0;
+    margin-bottom: 0.5rem;
 }
 
 .header #displayUsername, .header h2{
@@ -43,7 +43,7 @@ body{
     background-color:aquamarine;
     
     
-    padding: 3rem 10rem;
+    padding: 3rem 20%;
     display: grid;
     grid-template: 1fr 1fr 1fr / 1fr 1fr 1fr;
 

@@ -20,7 +20,25 @@ function addValueToBoard(){
     this.textContent="X";
     this.removeEventListener("click",addValueToBoard);
     checkPlayerWin();
+    if(checkPlayerWin()) {
+        document.getElementById("modalTwo").style.display = 'block';
+        
+    }
+}
 
+window.addEventListener("click", function (event) {
+    if (event.target.className === "result") {
+        document.getElementById("modalTwo").style.display = "none";
+        resetScreen();
+    }
+});
+
+function resetScreen(){
+    for(let item of items){
+        item.textContent="";
+    }
+    document.getElementById("displayUsername").textContent="";
+    document.getElementById("modalOne").style.display = 'block';
 }
 
 for(let item of items){
