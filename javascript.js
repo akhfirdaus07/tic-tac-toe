@@ -1,4 +1,4 @@
-// Render and style layout
+// Declare variable 
 const addBtn = document.querySelector('#addBtn');
 const result = document.getElementById("result");
 const displayUsername = document.getElementById("displayUsername");
@@ -18,6 +18,7 @@ const winningConditions = [
     [0, 4, 8], //Cross
     [2, 4, 6], //Cross
 ];
+// Declare module pattern
 const render=(()=>{
     const username=()=>displayUsername.textContent=form.username.value;
     const resetScreen=()=>{
@@ -34,11 +35,17 @@ const render=(()=>{
     return {username,resetScreen};
 })();
 
+// Add event listener
+window.addEventListener("click", function (event) {
+    if (event.target.className === "output") {
+        modalTwo.style.display = "none";
+        render.resetScreen();
+    }
+});
 addBtn.addEventListener('click', addUsername);
-
 for(let item of items){
     item.addEventListener("click", addValueToBoard)
-}
+};
 
 function addUsername(event) {
     event.preventDefault();
@@ -52,48 +59,48 @@ function addValueToBoard(){
     //Check for wins and tie
     if(checkHumanWin()) {
         result.innerText = 'You Win!'; 
-        document.getElementById("modalTwo").style.display = 'block';   
-    }else if(checkAiWin()) {
-        result.innerText = 'You Lose!'; 
-        document.getElementById("modalTwo").style.display = 'block';   
+        modalTwo.style.display = 'block';   
+    // }else if(checkAiWin()) {
+    //     result.innerText = 'You Lose!'; 
+    //     modalTwo.style.display = 'block';   
     }else if(isTie()) {
         result.innerText = 'Draw!'; 
-        document.getElementById("modalTwo").style.display = 'block';   
+        modalTwo.style.display = 'block';   
     }
     refreshArrValue();
     if (!checkHumanWin() && !isTie()) turn(bestSpot(), aiPlayer);
 }
 function turn(squareId, player) {
-    origBoard[squareId] = player;
+    itemsArr[squareId] = player;
     document.getElementById(squareId).innerText = player;
     let gameWon = checkWin(origBoard, player)
     if (gameWon) gameOver(gameWon)
 }
 function bestSpot() {
-    return minimax(origBoard, aiPlayer).index;
+    return minimax(itemsArr, aiPlayer).index;
 }
 
 function minimax(newBoard, player) {
     var availSpots = itemsArr.filter(i => i != "O" && i != "X");
 
-    if (checkWin(newBoard, huPlayer)) {
+    if (checkHumanWin) {
         return { score: -10 };
-    } else if (checkWin(newBoard, aiPlayer)) {
+    } else if (checkAiWin) {
         return { score: 10 };
     } else if (availSpots.length === 0) {
         return { score: 0 };
     }
     var moves = [];
-    for (var i = 0; i < availSpots.length; i++) {
+    for (let i = 0; i < availSpots.length; i++) {
         var move = {};
         move.index = newBoard[availSpots[i]];
         newBoard[availSpots[i]] = player;
 
         if (player == aiPlayer) {
-            var result = minimax(newBoard, huPlayer);
+            let result = minimax(newBoard, huPlayer);
             move.score = result.score;
         } else {
-            var result = minimax(newBoard, aiPlayer);
+            let result = minimax(newBoard, aiPlayer);
             move.score = result.score;
         }
 
@@ -124,12 +131,7 @@ function minimax(newBoard, player) {
     return moves[bestMove];
 }
 
-window.addEventListener("click", function (event) {
-    if (event.target.className === "output") {
-        modalTwo.style.display = "none";
-        render.resetScreen();
-    }
-});
+
 
 // Tic-Tac-Toe Logic
 
