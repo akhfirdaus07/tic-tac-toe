@@ -4,8 +4,17 @@ addBtn.addEventListener('click', addUsername);
 
 const render=(()=>{
     const username=()=>document.querySelector("#displayUsername").textContent=form.username.value;
-    ;
-    return {username};
+    const resetScreen=()=>{
+        for(let item of items){
+            item.textContent="";
+        }
+        document.getElementById("displayUsername").textContent="";
+        document.getElementById("modalOne").style.display = 'block';
+        for(let item of items){
+            item.addEventListener("click", addValueToBoard)
+        }
+    };
+    return {username,resetScreen};
 })();
 
 function addUsername(event) {
@@ -29,21 +38,21 @@ function addValueToBoard(){
     }
 }
 
-function resetScreen(){
-    for(let item of items){
-        item.textContent="";
-    }
-    document.getElementById("displayUsername").textContent="";
-    document.getElementById("modalOne").style.display = 'block';
-    for(let item of items){
-        item.addEventListener("click", addValueToBoard)
-    }
-}
+// function resetScreen(){
+//     for(let item of items){
+//         item.textContent="";
+//     }
+//     document.getElementById("displayUsername").textContent="";
+//     document.getElementById("modalOne").style.display = 'block';
+//     for(let item of items){
+//         item.addEventListener("click", addValueToBoard)
+//     }
+// }
 
 window.addEventListener("click", function (event) {
     if (event.target.className === "result") {
         document.getElementById("modalTwo").style.display = "none";
-        resetScreen();
+        render.resetScreen();
     }
 });
 
