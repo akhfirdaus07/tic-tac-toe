@@ -32,15 +32,22 @@ for(let item of items){
 function addValueToBoard(){
     this.textContent="X";
     this.removeEventListener("click",addValueToBoard);
-    checkHumanWin();
+    //Check for wins and tie
     if(checkHumanWin()) {
-        document.getElementById("result").innerText = 'You Win'; 
+        document.getElementById("result").innerText = 'You Win!'; 
+        document.getElementById("modalTwo").style.display = 'block';   
+    }else if(checkAiWin()) {
+        document.getElementById("result").innerText = 'You Lose!'; 
+        document.getElementById("modalTwo").style.display = 'block';   
+    }else if(isTie()) {
+        document.getElementById("result").innerText = 'Draw!'; 
         document.getElementById("modalTwo").style.display = 'block';   
     }
+    refreshArrValue();
 }
 
 window.addEventListener("click", function (event) {
-    if (event.target.className === "result") {
+    if (event.target.className === "output") {
         document.getElementById("modalTwo").style.display = "none";
         render.resetScreen();
     }
@@ -75,52 +82,57 @@ function checkAiWin() {
     });
 };
 
+
+let itemsArr=[];
+
+
 function isTie() {
-    return items.every((item) => {
-        return item.innerText === "X" || cell.innerText === "O";
+    return itemsArr.every((item) => {
+        return item.innerText === "X" || item.innerText === "O";
     });
 };
 
+
+function refreshArrValue(){
+    itemsArr=[];
+    for(let item of items){
+        itemsArr.push(item.innerText);
+    };
+};
+refreshArrValue();
+
 //Start of AI mode code
 function emptyCells() {
-    return items.filter((item) => item.innerText === "");
+    return itemsArr.filter((item) => item.innerText === "");
 }
-
+let turnX = true;
+let gameOver = false;
 function basicAI() {
     items.forEach((item) =>
         item.addEventListener("click", () => {
-        if (turnX && cell.innerHTML === `<div></div>` && !gameOver) {
-            cell.innerHTML = `<div class="x" id="x">X</div>`;
-            turnX = !turnX;
-            if (!turnX && emptyCells().length > 0 && !gameOver) {
-            emptyCells()[0].innerHTML = `<div class="o" id="o">O</div>`;
-            turnX = !turnX;
+            if (turnX && item.innerHTML === `<div></div>` && !gameOver) {
+                item.innerHTML = `<div class="x" id="x">X</div>`;
+                turnX = !turnX;
+                if (!turnX && emptyCells().length > 0 && !gameOver) {
+                    emptyCells()[0].innerHTML = `<div class="o" id="o">O</div>`;
+                    turnX = !turnX;
+                }
             }
-        }
-        //Check for wins and tie
-        const playerTurn = document.querySelector("#player-turn");
-        if (checkWinOCell()) {
-            playerTurn.innerHTML = `AI wins this round! 🤠🎉`;
-            playerTurn.style.opacity = "1";
-            restart.innerHTML = `Play Again<i class="fas fa-redo" id="icon">`;
-            gameOver = true;
-        }
-        if (checkWinXCell()) {
-            playerTurn.innerHTML = `Human wins this round! 😉🎉`;
-            playerTurn.style.opacity = "1";
-            restart.innerHTML = `Play Again<i class="fas fa-redo" id="icon">`;
-            gameOver = true;
-        }
-        if (isTieCell()) {
-            playerTurn.innerHTML = `It's a tie!🤝`;
-            playerTurn.style.opacity = "1";
-            restart.innerHTML = `Play Again<i class="fas fa-redo" id="icon">`;
-            gameOver = true;
-        }
+            //Check for wins and tie
+            if(checkHumanWin()) {
+                document.getElementById("result").innerText = 'You Win!'; 
+                document.getElementById("modalTwo").style.display = 'block';   
+            }else if(checkAiWin()) {
+                document.getElementById("result").innerText = 'You Lose!'; 
+                document.getElementById("modalTwo").style.display = 'block';   
+            }else if(isTie()) {
+                document.getElementById("result").innerText = 'Draw!'; 
+                document.getElementById("modalTwo").style.display = 'block';   
+            }
         })
     );
 };
 
-
+basicAI();
 // End of AI mode code
 
