@@ -19,7 +19,7 @@ const winningConditions = [
     [0, 4, 8], //Cross
     [2, 4, 6], //Cross
 ];
-// Declare module pattern
+// Declare render module pattern
 const render=(()=>{
     const username=()=>displayUsername.textContent=form.username.value;
     const resetScreen=()=>{
@@ -50,13 +50,40 @@ const render=(()=>{
     };
     return {username, resetScreen, displayWin, displayLose, displayDraw};
 })();
+// Declare logic module pattern
+const logic=(()=>{
+    const checkHumanWin=()=>{
+        return winningConditions.some((combination) => {
+          return combination.every((i) => {
+            return items[i].innerText === humanPlayer;
+          });
+        });
+    };
+    const checkAiWin=()=>{
+        return winningConditions.some((combination) => {
+          return combination.every((i) => {
+            return items[i].innerText === aiPlayer;
+          });
+        });
+    };
+    const isDraw=()=>{
+        return itemsArr.every(el => el == humanPlayer || el == aiPlayer)
+    }; 
+    const refreshArrValue=()=>{
+        itemsArr=[];
+        for(let item of items){
+            itemsArr.push(item.innerText);
+        };
+    };
+    return {checkHumanWin, checkAiWin, isDraw, refreshArrValue};
+})();
 
 // Add event listener
 window.addEventListener("click", function (event) {
     if (event.target.className === "output") {
         modalTwo.style.display = "none";
         render.resetScreen();
-        refreshArrValue();
+        logic.refreshArrValue();
     }
 });
 addBtn.addEventListener('click', addUsername);
@@ -73,15 +100,15 @@ function addUsername(event) {
 function addValueToBoard(){
     this.textContent="X";
     this.removeEventListener("click",addValueToBoard);
-    refreshArrValue();
+    logic.refreshArrValue();
     // //Check for wins and tie
     
-    if(checkHumanWin()) render.displayWin();
-    else if(isDraw()) render.displayDraw();
+    if(logic.checkHumanWin()) render.displayWin();
+    else if(logic.isDraw()) render.displayDraw();
 
     aiMove();
-    if(checkAiWin()) render.displayLose(); 
-    else if(isDraw()) render.displayDraw();
+    if(logic.checkAiWin()) render.displayLose(); 
+    else if(logic.isDraw()) render.displayDraw();
 };
 function aiMove(){
     for(let winningCondition of winningConditions){
@@ -97,7 +124,6 @@ function aiMove(){
             break;
         }
     }
-    console.log(bestMove)
     if(bestMove){
         document.getElementById(bestMove).innerText=aiPlayer;
         document.getElementById(bestMove).removeEventListener("click",addValueToBoard);
@@ -111,33 +137,5 @@ function aiMove(){
             }
         };
     };
-    refreshArrValue();
-};
-
-
-// Tic-Tac-Toe Logic
-function checkHumanWin() {
-    return winningConditions.some((combination) => {
-      return combination.every((i) => {
-        return items[i].innerText === humanPlayer;
-      });
-    });
-};
-function checkAiWin() {
-    return winningConditions.some((combination) => {
-      return combination.every((i) => {
-        return items[i].innerText === aiPlayer;
-      });
-    });
-};
-
-function isDraw() {
-    return itemsArr.every(el => el == humanPlayer || el == aiPlayer)
-}; 
-
-function refreshArrValue(){
-    itemsArr=[];
-    for(let item of items){
-        itemsArr.push(item.innerText);
-    };
+    logic.refreshArrValue();
 };
