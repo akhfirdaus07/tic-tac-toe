@@ -33,7 +33,22 @@ const render=(()=>{
         }
         result.innerText = ''; 
     };
-    return {username,resetScreen};
+    const displayWin=()=>{
+        result.innerText = 'You Win!'; 
+        modalTwo.style.display = 'block';
+        return;
+    };
+    const displayLose=()=>{
+        result.innerText = 'You Lose!'; 
+        modalTwo.style.display = 'block';  
+        return;
+    };
+    const displayDraw=()=>{
+        result.innerText = 'Draw!'; 
+        modalTwo.style.display = 'block';
+        return;   
+    };
+    return {username, resetScreen, displayWin, displayLose, displayDraw};
 })();
 
 // Add event listener
@@ -61,52 +76,16 @@ function addValueToBoard(){
     refreshArrValue();
     // //Check for wins and tie
     
-    if(checkHumanWin()) {
-        result.innerText = 'You Win!'; 
-        modalTwo.style.display = 'block';
-        return;
-    } else if(isTie()) {
-        result.innerText = 'Draw!'; 
-        modalTwo.style.display = 'block';
-        return;   
-    }
+    if(checkHumanWin()) render.displayWin();
+    else if(isDraw()) render.displayDraw();
 
     aiMove();
-    if(checkAiWin()) {
-        result.innerText = 'You Lose!'; 
-        modalTwo.style.display = 'block';  
-        return; 
-    } else if(isTie()) {
-        result.innerText = 'Draw!'; 
-        modalTwo.style.display = 'block';  
-        return;
-    }
-    // if (!checkHumanWin() && !isTie()) turn(bestSpot());
+    if(checkAiWin()) render.displayLose(); 
+    else if(isDraw()) render.displayDraw();
 };
-
-// function humanBestMove(){
-//     // return winningConditions.some((combination) => {
-//     //     return combination.every((i) => {
-//     //       return items[i].innerText === humanPlayer;
-//     //     });
-//     // });
-
-//     for(let winningCondition of winningConditions){
-//         if(winningCondition.filter(word => word.includes(humanPlayer))==2){
-//             bestMove=winningCondition.indexOf("");
-//             return bestMove;
-//         }
-//     }
-// }
-
-
 function aiMove(){
-    
-
     for(let winningCondition of winningConditions){
         let count=0;
-    // [0, 1, 2]
-    
         for(let value of winningCondition){
             if(itemsArr[value]==humanPlayer) count++;
         }
@@ -115,11 +94,6 @@ function aiMove(){
             for(let item of winningCondition){
                 if (itemsArr[item]=="") bestMove=item;
             }
-
-            // console.log(winningCondition)
-            // console.log(winningCondition.indexOf(""))
-            // bestMove=bestMove.indexOf("");
-            
             break;
         }
     }
@@ -141,71 +115,6 @@ function aiMove(){
 };
 
 
-// function turn(squareId) {
-//     itemsArr[squareId] = aiPlayer;
-//     document.getElementById(squareId).innerText = aiPlayer;
-//     if(checkHumanWin()) {
-//         result.innerText = 'You Win!'; 
-//         modalTwo.style.display = 'block';    
-//     }
-// }
-// function bestSpot() {
-//     return minimax(itemsArr, aiPlayer).index;
-// }
-
-// function minimax(newBoard, player) {
-//     var availSpots = itemsArr.filter(i => i != "O" && i != "X");
-
-//     if (checkHumanWin()) {
-//         return { score: -10 };
-//     } else if (checkAiWin()) {
-//         return { score: 10 };
-//     } else if (availSpots.length === 0) {
-//         return { score: 0 };
-//     }
-//     var moves = [];
-//     for (let i = 0; i < availSpots.length; i++) {
-//         var move = {};
-//         move.index = newBoard[availSpots[i]];
-//         newBoard[availSpots[i]] = player;
-
-//         if (player == aiPlayer) {
-//             let output = minimax(newBoard, humanPlayer);
-//             move.score = output.score;
-//         } else {
-//             let output = minimax(newBoard, aiPlayer);
-//             move.score = output.score;
-//         }
-
-//         newBoard[availSpots[i]] = move.index;
-
-//         moves.push(move);
-//     }
-
-//     var bestMove;
-//     if (player === aiPlayer) {
-//         var bestScore = -10000;
-//         for (let i = 0; i < moves.length; i++) {
-//             if (moves[i].score > bestScore) {
-//                 bestScore = moves[i].score;
-//                 bestMove = i;
-//             }
-//         }
-//     } else {
-//         var bestScore = 10000;
-//         for (let i = 0; i < moves.length; i++) {
-//             if (moves[i].score < bestScore) {
-//                 bestScore = moves[i].score; 
-//                 bestMove = i;
-//             }
-//         }
-//     }
-
-//     return moves[bestMove];
-// }
-
-
-
 // Tic-Tac-Toe Logic
 function checkHumanWin() {
     return winningConditions.some((combination) => {
@@ -222,7 +131,7 @@ function checkAiWin() {
     });
 };
 
-function isTie() {
+function isDraw() {
     return itemsArr.every(el => el == humanPlayer || el == aiPlayer)
 }; 
 
