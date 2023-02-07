@@ -55,14 +55,14 @@ const logic=(()=>{
     const checkHumanWin=()=>{
         return winningConditions.some((combination) => {
           return combination.every((i) => {
-            return items[i].innerText === humanPlayer;
+            return itemsArr[i] === humanPlayer;
           });
         });
     };
     const checkAiWin=()=>{
         return winningConditions.some((combination) => {
           return combination.every((i) => {
-            return items[i].innerText === aiPlayer;
+            return itemsArr[i] === aiPlayer;
           });
         });
     };
@@ -77,7 +77,6 @@ const logic=(()=>{
     };
     return {checkHumanWin, checkAiWin, isDraw, refreshArrValue};
 })();
-
 // Add event listener
 window.addEventListener("click", function (event) {
     if (event.target.className === "output") {
@@ -90,24 +89,23 @@ addBtn.addEventListener('click', addUsername);
 for(let item of items){
     item.addEventListener("click", addValueToBoard)
 };
-
+// Global function
 function addUsername(event) {
     event.preventDefault();
     render.username();
     modalOne.style.display = 'none';
 }
-
 function addValueToBoard(){
-    this.textContent="X";
+    this.textContent=humanPlayer;
     this.removeEventListener("click",addValueToBoard);
     logic.refreshArrValue();
-    // //Check for wins and tie
-    
-    if(logic.checkHumanWin()) render.displayWin();
+    //Check for Human win and tie
+    if(logic.checkHumanWin()) render.displayWin()
     else if(logic.isDraw()) render.displayDraw();
-
+    // AI Move
     aiMove();
-    if(logic.checkAiWin()) render.displayLose(); 
+    // Check for AI win and tie
+    if(logic.checkAiWin()) render.displayLose()
     else if(logic.isDraw()) render.displayDraw();
 };
 function aiMove(){
