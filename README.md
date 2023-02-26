@@ -1,2 +1,4 @@
 # tic-tac-toe
-tic-tac-toe project from The Odin Project (https://www.theodinproject.com/lessons/node-path-javascript-tic-tac-toe)
+tic-tac-toe project
+
+Live Demo: https://akhfirdaus07.github.io/tic-tac-toe/
